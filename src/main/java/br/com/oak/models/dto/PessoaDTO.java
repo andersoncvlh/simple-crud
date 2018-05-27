@@ -5,6 +5,7 @@ import java.util.Date;
 
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 public class PessoaDTO implements Serializable {
 
@@ -21,16 +22,19 @@ public class PessoaDTO implements Serializable {
 	private Integer qtdTels;
 	
 	private Date dataNascimento;
+	
+	private String email;
 
 	public PessoaDTO() {}
 	
-	public PessoaDTO(Long id, String nome, String cpf, Date dataNascimento, Long qtdTels) {
+	public PessoaDTO(Long id, String nome, String cpf, String email, Date dataNascimento, Long qtdTels) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.cpf = cpf;
 		this.dataNascimento = dataNascimento;
 		this.qtdTels = qtdTels.intValue();
+		this.email = email;
 	}
 
 
@@ -59,10 +63,14 @@ public class PessoaDTO implements Serializable {
 	}
 
 	public Integer getIdade() {
-		DateTime dataAtual = new DateTime();
-        DateTime dataNascimento = new DateTime(this.dataNascimento);
-        Interval interval = new Interval(dataNascimento, dataAtual);
-		return interval.toPeriod().getYears();
+		try {
+			DateTime dataAtual = new DateTime();
+			DateTime dataNascimento = new DateTime(this.dataNascimento);
+			Interval interval = new Interval(dataNascimento, dataAtual);
+			return interval.toPeriod().getYears();
+		} catch (Exception e) {
+			return 0;
+		}
 	}
 
 	public Integer getQtdTels() {
@@ -79,6 +87,14 @@ public class PessoaDTO implements Serializable {
 
 	public void setDataNascimento(Date dataNascimento) {
 		this.dataNascimento = dataNascimento;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
 }

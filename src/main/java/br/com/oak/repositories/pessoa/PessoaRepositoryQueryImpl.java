@@ -20,7 +20,7 @@ public class PessoaRepositoryQueryImpl extends AbstractRepository implements Pes
 	public Page<PessoaDTO> findByFilter(PessoaFilter filter, Pageable pageable) {
 		StringBuilder sql = new StringBuilder();
 		sql.append(" SELECT ")
-			.append(" new br.com.oak.models.dto.PessoaDTO(p.id, p.nome, p.cpf, p.dataNascimento, ")
+			.append(" new br.com.oak.models.dto.PessoaDTO(p.id, p.nome, p.cpf, p.email, p.dataNascimento, ")
 			.append(" (SELECT COUNT(t) FROM Telefone t WHERE t.pessoa = p ) ) ")
 			.append(" FROM Pessoa p ")
 			.append(" WHERE 1 = 1 ");

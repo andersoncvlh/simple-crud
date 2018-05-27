@@ -20,12 +20,20 @@ public class PessoaService {
 		return pessoaRepository.findByFilter(filter, pageable);
 	}
 	
+	public Pessoa findById(Long id) {
+		return pessoaRepository.findById(id).orElse(null);
+	}
+	
 	public Pessoa save(Pessoa pessoa) {
 		return pessoaRepository.save(pessoa);
 	}
 	
 	public void delete(Pessoa pessoa) {
 		pessoaRepository.delete(pessoa);
+	}
+	
+	public void deleteById(Long pessoa) {
+		pessoaRepository.deleteById(pessoa);
 	}
 	
 }
