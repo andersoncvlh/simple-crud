@@ -11,6 +11,9 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 
 @Entity
 public class Pessoa extends AbstractEntity implements Serializable {
@@ -20,19 +23,19 @@ public class Pessoa extends AbstractEntity implements Serializable {
 	@Column(nullable = false)
 	private String nome;
 	
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	private String cpf;
 	
+	@Temporal(TemporalType.DATE)
 	@Column(name="data_nascimento")
 	private Date dataNascimento;
 	
 	@Column(nullable = false)
 	private String email;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade= {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE})
-	@JoinTable(name = "pessoa_telefone", 
-		joinColumns = @JoinColumn(name = "pessoa_id"), 
-		inverseJoinColumns = @JoinColumn(name = "telefone_id"))
+	@OneToMany(mappedBy = "pessoa", 
+			   fetch = FetchType.LAZY, 
+			   cascade= {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE})
 	private List<Telefone> telefones;
 
 	public String getNome() {
