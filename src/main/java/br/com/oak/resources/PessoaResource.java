@@ -42,16 +42,26 @@ public class PessoaResource {
 	
 	@PostMapping
 	public ResponseEntity<Pessoa> salvar(@RequestBody Pessoa pessoa) throws URISyntaxException {
-		Pessoa pessoaCriada = pessoaService.save(pessoa);		
+		carregarPessoaParaTelefones(pessoa);
+		Pessoa pessoaCriada = pessoaService.save(pessoa);
+		
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri()
 			.path("/{codigo}").buildAndExpand(pessoaCriada.getId()).toUri();
 		return null != pessoaCriada ? ResponseEntity.created(uri).body(pessoaCriada) : null;
 	}
-	
+
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Pessoa> delete(@PathVariable("id") Long pessoa) {
 		pessoaService.deleteById(pessoa);
 		return ResponseEntity.noContent().build();
+	}
+	
+	private void carregarPessoaParaTelefones(Pessoa pessoa) {
+		if (null != pessoa.getTelefones() && !pessoa.getTelefones().isEmpty()) {
+			pessoa.getTelefones().parallelStream().forEach(t -> {
+				t.setPessoa(pessoa);
+			});
+		}
 	}
 	
 }
