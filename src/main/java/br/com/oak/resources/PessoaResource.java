@@ -42,8 +42,8 @@ public class PessoaResource {
 	
 	@PostMapping
 	public ResponseEntity<Pessoa> salvar(@RequestBody Pessoa pessoa) throws URISyntaxException {
-		carregarPessoaParaTelefones(pessoa);
 		Pessoa pessoaCriada = pessoaService.save(pessoa);
+		carregarPessoaParaTelefones(pessoaCriada);
 		
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri()
 			.path("/{codigo}").buildAndExpand(pessoaCriada.getId()).toUri();
@@ -62,6 +62,7 @@ public class PessoaResource {
 				t.setPessoa(pessoa);
 			});
 		}
+		pessoaService.save(pessoa);
 	}
 	
 }
