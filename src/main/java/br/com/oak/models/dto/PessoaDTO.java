@@ -5,7 +5,6 @@ import java.util.Date;
 
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
 public class PessoaDTO implements Serializable {
 
@@ -67,10 +66,15 @@ public class PessoaDTO implements Serializable {
 			DateTime dataAtual = new DateTime();
 			DateTime dataNascimento = new DateTime(this.dataNascimento);
 			Interval interval = new Interval(dataNascimento, dataAtual);
-			return interval.toPeriod().getYears();
+			this.idade = interval.toPeriod().getYears();
+			return idade;
 		} catch (Exception e) {
 			return 0;
 		}
+	}
+	
+	public void setIdade(Integer idade) {
+		this.idade = idade;
 	}
 
 	public Integer getQtdTels() {

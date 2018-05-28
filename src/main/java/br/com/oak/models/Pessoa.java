@@ -8,21 +8,21 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 public class Pessoa extends AbstractEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@NotBlank
 	@Column(nullable = false)
 	private String nome;
 	
+	@NotBlank
 	@Column(nullable = false, unique = true)
 	private String cpf;
 	
@@ -30,6 +30,7 @@ public class Pessoa extends AbstractEntity implements Serializable {
 	@Column(name="data_nascimento")
 	private Date dataNascimento;
 	
+	@NotBlank
 	@Column(nullable = false)
 	private String email;
 	
